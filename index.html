@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    body {
+        margin: 0 0 0 0;
+        padding: 0;
+    }
+
+    .first1 {
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    .one1 {
+        float: left;
+        padding: 5px;
+        font-weight: bold;
+    }
+
+    .toggleButton {
+
+        float: left;
+        border: 1px solid black;
+        padding: 4px;
+    }
+
+    .first {
+
+        width: 100%;
+        background-color: #eeeeee;
+        height: 30px;
+        padding: 5px;
+    }
+
+    .active {
+        background-color: #e8f2ff;
+    }
+
+    .highLighted {
+        background-color: GREY;
+    }
+
+    textarea {
+        resize: none;
+        border: none;
+        border-right: 2px solid gray;
+    }
+    iframe{
+        border: none;
+    }
+
+    .area {
+        float: left;
+        width: 50%;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+
+
+<body>
+    <div class="first">
+        <div class="one1">CODE PLAYER</div>
+        <div class="first1">
+            <div class="toggleButton active" id="html">HTML</div>
+            <div class="toggleButton"  id="css"> CSS</div>
+            <div class="toggleButton"  id="js">JAVASCRIPT</div>
+            <div class="toggleButton active"  id="output">OUTPUT</div>
+        </div>
+    </div>
+    <div class="text">
+        <textarea name=""  id="htmlPanel" cols="30" rows="10" class="area"></textarea>
+        <textarea name="" id="cssPanel" cols="30" rows="10" class="area hide">p:{color:red}</textarea>
+        <textarea name="" id="jsPanel" cols="30" rows="10" class="area hide">alert</textarea>
+        <iframe id="outputPanel" src="" frameborder="0" class="area"></iframe>
+    </div>
+    <script type="text/javascript">
+         function updateOutput() {
+    $("iframe").contents().find("html").html(
+        '<style>'+$("#cssPanel").val()+'</style>'+$("#htmlPanel").val());
+        document.getElementById("outputPanel").contentWindow.eval($("#jsPanel").val());            
+            }
+            
+       $(".toggleButton").hover(function()
+       {
+        $(this).addClass("highLighted");
+       },function()
+       {
+       $(this).removeClass("highLighted");
+       }
+       )
+       $(".toggleButton").click(function()
+      {
+        $(this).toggleClass("active");
+        $(this).removeClass("highLighted");
+       var panelId= $(this).attr("id")+"Panel";
+       $("#"+panelId).toggleClass("hide");
+       var numberOfActivePanels = 4 - $('.hidden').length;
+             $(".area").width(($(window).width() / numberOfActivePanels) - 10);
+
+      })
+      $(".area").height($(window).height() - $(".first").height() - 22);
+    //width
+    $(".area").width(($(window).width() / 2 )-10)
+    //change content
+    // $("iframe").contents().find("html").html($("#htmlPanel").val());
+    updateOutput()
+    // output of html 
+    $("textarea").on('change keyup paste', function () {
+        // $("iframe").contents().find("html").html($("#htmlPanel").val());
+        updateOutput()
+    });
+  
+    </script>
+    
+    
+</body>
+
+
+</html>
